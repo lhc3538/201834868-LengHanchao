@@ -10,8 +10,9 @@ implement by sklearn
 ### (4)Using KNN to classfication
 ## 2.Result
 When k = 5
-Item     | Value
--------- | ---
-precision   |   0.804
-recall      |   0.804
-f1-score    |   0.804
+
+|   Item        |   Value   |
+|   :--------:  |   :---:   |
+|   precision   |   0.804   |
+|   recall      |   0.804   |
+|   f1-score    |   0.804   |

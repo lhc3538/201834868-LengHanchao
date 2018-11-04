@@ -3,9 +3,10 @@ from sklearn import datasets, metrics
 from sklearn import model_selection
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.neighbors import KNeighborsClassifier
-
+from homework1 import my_knn
 
 dir_20newsgroups = "/home/leon/Disk/dataset/Downloads/20Newsgroups/20news-18828"
+use_my_knn = False
 
 
 def calculate_result(actual, pred):
@@ -25,18 +26,31 @@ doc_terms_train, doc_terms_test, doc_class_train, doc_class_test = \
     model_selection.train_test_split(data_20newsgroups.data, data_20newsgroups.target, test_size=0.2)
 
 # Extract features
-vectorizer_train = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english', decode_error='ignore')
+vectorizer_train = TfidfVectorizer(sublinear_tf=True, max_df=0.5, stop_words='english',
+                                   decode_error='ignore', max_features=3000)
 fea_train = vectorizer_train.fit_transform(doc_terms_train)
-vectorizer_test = TfidfVectorizer(vocabulary=vectorizer_train.vocabulary_, decode_error='ignore')
+vectorizer_test = TfidfVectorizer(vocabulary=vectorizer_train.vocabulary_, decode_error='ignore',
+                                  max_features=3000)
 fea_test = vectorizer_test.fit_transform(doc_terms_test)
-# print(fea_test, fea_train)
+
+# Print features
+feature_names_train = vectorizer_train.get_feature_names()
+print(feature_names_train[-10:])
+feature_names_test = vectorizer_test.get_feature_names()
+print(feature_names_test[-10:])
 print(fea_train.shape)
 print(fea_train.nnz / float(fea_train.shape[0]))
 print(fea_test.shape)
 print(fea_test.nnz / float(fea_test.shape[0]))
 
-# KNN
-knnclf = KNeighborsClassifier() #default with k=5
-knnclf.fit(fea_train, doc_class_train)
-pred = knnclf.predict(fea_test)
-calculate_result(doc_class_test, pred)
+if use_my_knn:
+    # my KNN
+    pred = my_knn.knn_classify_list(fea_test.toarray(), fea_train.toarray(), doc_class_train, 5)
+    calculate_result(doc_class_test, pred)
+else:
+    # sklearn KNN
+    knnclf = KNeighborsClassifier()     # default with k=5
+    knnclf.fit(fea_train, doc_class_train)
+    pred = knnclf.predict(fea_test)
+    calculate_result(doc_class_test, pred)
+

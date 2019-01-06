@@ -89,3 +89,12 @@ if __name__ == '__main__':
     my_agglomerative_clustering(corpus, labels)
     my_dbscan(corpus, labels)
     my_gaussian_mixture(corpus, labels)
+
+# num_cluster: 110
+# K-means NMI: 0.7916051205577013
+# AffinityPropagation NMI: 0.7834777200368183
+# MeanShift NMI: 0.7468492000608157
+# SpectralClustering NMI: 0.6716412603878753
+# AgglomerativeClustering NMI: 0.7758740356993199
+# DBSCAN NMI: 0.7009526046894612
+# GaussianMixture NMI: 0.7859487200756089
